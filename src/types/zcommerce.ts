@@ -73,17 +73,17 @@ export interface ProductSummary {
   discountedPrice?: number | null;
   assets: Asset[];
   ribbon?: Ribbon | null;
-  variants?: Pick<Variant, "variantPrice" | "stockQuantity" | "stockStatus" | "status">[] | null;
+  /** Full variants, so single-variant products can be added straight from a card */
+  variants?: Variant[] | null;
   categoryIds?: string[] | null;
 }
 
 /** Full product (getClientSideProductById) */
-export interface Product extends Omit<ProductSummary, "variants"> {
+export interface Product extends ProductSummary {
   description?: string | null;
   additionalInfo?: { title: string; description: string }[] | null;
   categories?: CategoryRef[] | null;
   productOptions?: ProductOption[] | null;
-  variants?: Variant[] | null;
   status?: ProductStatus | null;
   meta?: SeoMeta | null;
 }

@@ -32,9 +32,18 @@ export default function AccountView({ tab }: { tab: AccountTab }) {
   }, [hydrated, isLoggedIn, router, tab]);
 
   if (!hydrated || !user) {
+    // Shaped like the header, tab row and panel below, while the session is restored
     return (
-      <div className="flex flex-col gap-6">
-        <Skeleton className="h-14 w-72" />
+      <div className="flex flex-col gap-stack" aria-busy="true" aria-label="Loading your account">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-3 w-24" />
+          <Skeleton className="h-10 w-72 md:h-14" />
+        </div>
+        <div className="flex gap-6 border-b border-line pb-3">
+          {["w-20", "w-16", "w-24", "w-16"].map((width, i) => (
+            <Skeleton key={i} className={`h-4 ${width}`} />
+          ))}
+        </div>
         <Skeleton className="h-64 w-full" />
       </div>
     );

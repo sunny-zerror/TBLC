@@ -9,10 +9,10 @@ export default async function HomeCategories() {
 
   return (
     <section className="section container" aria-labelledby="home-categories">
-      <h2 id="home-categories" className="mb-stack">
+      <h2 id="home-categories" data-heading-effect className="mb-stack">
         Shop by category
       </h2>
-      <ul className="grid gap-grid md:grid-cols-3">
+      <ul data-stagger className="grid gap-grid md:grid-cols-3">
         {categories.map((category) => (
           <li key={category._id}>
             <Link

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/auth-store";
 import { useCartStore } from "@/store/cart-store";
+import { useLocalCartStore } from "@/store/local-cart-store";
 import { clearSessionCookie, setSessionCookie } from "@/utils/session-cookie";
 
 /*
@@ -12,7 +13,11 @@ import { clearSessionCookie, setSessionCookie } from "@/utils/session-cookie";
  */
 export default function StoreHydration() {
   useEffect(() => {
-    Promise.all([useAuthStore.persist.rehydrate(), useCartStore.persist.rehydrate()]).then(() => {
+    Promise.all([
+      useAuthStore.persist.rehydrate(),
+      useCartStore.persist.rehydrate(),
+      useLocalCartStore.persist.rehydrate(),
+    ]).then(() => {
       useCartStore.getState().ensureGuestId();
       if (useAuthStore.getState().user) setSessionCookie();
       else clearSessionCookie();

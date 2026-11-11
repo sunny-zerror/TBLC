@@ -25,7 +25,7 @@ export const PRODUCT_CARD = `
   _id name slug price discountedPrice categoryIds
   assets { ${ASSET} }
   ribbon { name ribbonId }
-  variants { variantPrice stockQuantity stockStatus status }
+  variants { ${VARIANT} }
 `;
 
 export const CART_LINE = `

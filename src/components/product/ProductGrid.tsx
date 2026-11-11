@@ -1,21 +1,30 @@
-import ProductCard from "@/components/product/ProductCard";
+import ProductCard, { productTileClass } from "@/components/product/ProductCard";
 import type { ProductSummary } from "@/types";
 
+/* Each card sits in its own hairline frame with padding inside; cards fade up row by row */
 export default function ProductGrid({
   products,
-  priorityCount = 4,
+  priorityCount = 3,
+  headingLevel,
 }: {
   products: ProductSummary[];
   priorityCount?: number;
+  headingLevel?: "h2" | "h3";
 }) {
   if (products.length === 0) {
-    return <p className="py-section text-center text-body text-muted">No products here yet.</p>;
+    return (
+      <p data-fade className="py-section text-center text-lead text-muted">
+        No pieces here yet.
+      </p>
+    );
   }
   return (
-    <div className="grid grid-cols-2 gap-x-grid gap-y-stack md:grid-cols-3 lg:grid-cols-4">
+    <ul data-stagger className="grid gap-grid sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product, i) => (
-        <ProductCard key={product._id} product={product} priority={i < priorityCount} />
+        <li key={product._id} className={productTileClass}>
+          <ProductCard product={product} priority={i < priorityCount} headingLevel={headingLevel} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

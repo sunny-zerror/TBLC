@@ -18,11 +18,7 @@ export default function MobileMenu({ open, onClose }: { open: boolean; onClose: 
         <ul className="flex flex-col p-6">
           {links.map((item) => (
             <li key={item.href}>
-              <Link
-                href={item.href}
-                onClick={onClose}
-                className="block border-b border-line py-4 font-primary text-2xl"
-              >
+              <Link href={item.href} onClick={onClose} className="block border-b border-line py-4 text-title-sm">
                 {item.label}
               </Link>
             </li>

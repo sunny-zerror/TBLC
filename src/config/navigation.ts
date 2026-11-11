@@ -1,19 +1,25 @@
 import type { NavItem } from "@/types";
 
-export const mainNav: NavItem[] = [
-  { label: "Shop", href: "/shop" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+/* The header splits its links around the centred monogram */
+export const navLeft: NavItem[] = [
+  { label: "Expertise", href: "/expertise" },
+  { label: "Store", href: "/shop" },
+  { label: "Classroom", href: "/classroom" },
 ];
+
+export const navRight: NavItem[] = [
+  { label: "Studio", href: "/studio" },
+  { label: "Blog", href: "/blog" },
+];
+
+/** Every top-level link, for the mobile menu */
+export const mainNav: NavItem[] = [...navLeft, ...navRight];
 
 export const footerNav: { title: string; links: NavItem[] }[] = [
   {
-    title: "Shop",
-    links: [{ label: "All Products", href: "/shop" }],
-  },
-  {
-    title: "Company",
+    title: "Explore",
     links: [
+      { label: "Store", href: "/shop" },
       { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
     ],
@@ -21,9 +27,9 @@ export const footerNav: { title: string; links: NavItem[] }[] = [
   {
     title: "Account",
     links: [
-      { label: "My Account", href: "/account" },
+      { label: "My account", href: "/account" },
       { label: "Orders", href: "/account?tab=orders" },
-      { label: "Sign In", href: "/login" },
+      { label: "Your cart", href: "/cart" },
     ],
   },
 ];

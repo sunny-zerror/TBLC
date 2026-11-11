@@ -43,13 +43,28 @@ export default function AddressesTab({ userId }: { userId: string }) {
     }
   }
 
-  if (loading && !data) return <Skeleton className="h-48 w-full" />;
+  if (loading && !data) {
+    // Shaped like the address cards below
+    return (
+      <ul className="grid gap-grid md:grid-cols-2" aria-busy="true" aria-label="Loading your addresses">
+        {[0, 1].map((card) => (
+          <li key={card} className="flex flex-col gap-3 border border-line p-6">
+            <Skeleton className="h-3 w-20" />
+            <Skeleton className="h-4 w-2/5" />
+            <Skeleton className="h-4 w-4/5" />
+            <Skeleton className="h-4 w-3/5" />
+            <Skeleton className="mt-1 h-4 w-10" />
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   if (editing) {
     const current = editing === "new" ? null : editing;
     return (
       <form onSubmit={onSubmit} className="flex max-w-2xl flex-col gap-6">
-        <h2 className="text-3xl">{current ? "Edit address" : "New address"}</h2>
+        <h2 className="text-title">{current ? "Edit address" : "New address"}</h2>
         <TextField
           label="Label"
           name="addressType"

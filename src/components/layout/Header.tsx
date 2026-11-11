@@ -1,74 +1,75 @@
 "use client";
 
-import { RiMenuLine, RiShoppingBag3Line, RiUser3Line } from "@remixicon/react";
+import { RiMenuLine, RiShoppingBag3Line } from "@remixicon/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Logo from "@/components/layout/Logo";
 import MobileMenu from "@/components/layout/MobileMenu";
-import { mainNav } from "@/config/navigation";
+import { navLeft, navRight } from "@/config/navigation";
 import { useCart } from "@/hooks/useCart";
-import { selectIsLoggedIn, useAuthStore } from "@/store/auth-store";
-import { useCartStore } from "@/store/cart-store";
+import type { NavItem } from "@/types";
 import { cn } from "@/utils/cn";
+
+const linkClass = "link-line py-1 text-cta";
+
+function NavLinks({ items, pathname }: { items: NavItem[]; pathname: string }) {
+  return (
+    <ul className="flex gap-10 xl:gap-14">
+      {items.map((item) => {
+        const active = pathname.startsWith(item.href);
+        return (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={cn(linkClass, active ? "text-accent" : "text-ink hover:text-accent")}
+            >
+              {item.label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const openCart = useCartStore((s) => s.open);
-  const isLoggedIn = useAuthStore(selectIsLoggedIn);
   const { count } = useCart();
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
-        <div className="container grid h-header grid-cols-[1fr_auto_1fr] items-center">
-          <div className="flex items-center gap-8">
+      {/* Named so page view transitions (globals.css) leave it still while the content fades */}
+      <header className="sticky top-0 z-40 border-b border-line bg-paper [view-transition-name:site-header]">
+        <div data-fade="down" className="container grid h-header grid-cols-[1fr_auto_1fr] items-center gap-6">
+          <div className="flex items-center">
             <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="-ml-2 p-2 md:hidden">
               <RiMenuLine className="size-5" />
             </button>
             <nav aria-label="Main" className="hidden md:block">
-              <ul className="flex gap-8">
-                {mainNav.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={pathname.startsWith(item.href) ? "page" : undefined}
-                      className={cn(
-                        "text-cta transition-opacity hover:opacity-60",
-                        pathname.startsWith(item.href) && "underline underline-offset-8",
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <NavLinks items={navLeft} pathname={pathname} />
             </nav>
           </div>
 
-          <Logo />
+          <Logo priority />
 
-          <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center justify-end gap-6 xl:gap-10">
+            <nav aria-label="More" className="hidden md:block">
+              <NavLinks items={navRight} pathname={pathname} />
+            </nav>
             <Link
-              href={isLoggedIn ? "/account" : "/login"}
-              aria-label={isLoggedIn ? "My account" : "Sign in"}
-              className="p-2"
+              href="/cart"
+              aria-label={`Your cart, ${count} ${count === 1 ? "item" : "items"}`}
+              className="-mr-2 flex items-center gap-1.5 p-2 text-small transition-colors hover:text-accent"
             >
-              <RiUser3Line className="size-5" />
+              <RiShoppingBag3Line className="size-4" />
+              <span aria-hidden="true">({count})</span>
             </Link>
-            <button onClick={openCart} aria-label={`Open bag, ${count} items`} className="relative -mr-2 p-2">
-              <RiShoppingBag3Line className="size-5" />
-              {count > 0 && (
-                <span className="absolute top-0.5 right-0.5 center size-4 rounded-full bg-ink text-[0.625rem] text-paper">
-                  {count}
-                </span>
-              )}
-            </button>
           </div>
         </div>
       </header>
-      {/* Outside <header>: its backdrop-filter would trap the fixed drawer inside it */}
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   );

@@ -34,8 +34,8 @@ export default function ContactForm() {
 
   if (sent) {
     return (
-      <div role="status" className="flex flex-col gap-4 bg-surface p-8">
-        <h2 className="text-3xl">Thank you</h2>
+      <div role="status" data-fade className="flex flex-col gap-4 bg-surface p-8">
+        <h2 className="text-title">Thank you</h2>
         <p className="text-body text-muted">We&apos;ve received your message and will be in touch shortly.</p>
         <Button variant="outline" className="self-start" onClick={() => setSent(false)}>
           Send another
@@ -45,7 +45,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-5 md:grid-cols-2">
+    <form onSubmit={onSubmit} data-fade data-delay="0.2" className="grid gap-5 md:grid-cols-2">
       <TextField label="Name" name="name" autoComplete="name" required />
       <TextField label="Email" name="email" type="email" autoComplete="email" required />
       <TextField label="Phone (optional)" name="phoneNumber" type="tel" autoComplete="tel" />

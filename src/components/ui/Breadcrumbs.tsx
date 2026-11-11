@@ -7,7 +7,7 @@ import type { Crumb } from "@/types";
 export default function Breadcrumbs({ items }: { items: Crumb[] }) {
   const trail = [{ name: "Home", path: "/" }, ...items];
   return (
-    <nav aria-label="Breadcrumb" className="text-caption text-muted">
+    <nav aria-label="Breadcrumb" data-fade="in" className="font-primary text-caption text-muted">
       <JsonLd data={breadcrumbSchema(items)} />
       <ol className="flex flex-wrap items-center gap-2">
         {trail.map((crumb, i) => {
@@ -20,7 +20,7 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
                 </span>
               ) : (
                 <>
-                  <Link href={crumb.path} className="hover:text-ink">
+                  <Link href={crumb.path} className="link-line hover:text-ink">
                     {crumb.name}
                   </Link>
                   <span aria-hidden="true">/</span>

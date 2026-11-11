@@ -15,7 +15,23 @@ export default function OrdersTab({ userId }: { userId: string }) {
   });
   const orders = data?.getOrdersByFilters.data ?? [];
 
-  if (loading && !data) return <Skeleton className="h-48 w-full" />;
+  if (loading && !data) {
+    // Shaped like the order rows below: order · placed · status · total
+    return (
+      <ul className="flex flex-col gap-4" aria-busy="true" aria-label="Loading your orders">
+        {[0, 1, 2].map((row) => (
+          <li key={row} className="grid grid-cols-2 gap-4 border border-line p-5 md:grid-cols-5">
+            {[0, 1, 2, 3].map((cell) => (
+              <span key={cell} className="flex flex-col gap-1.5">
+                <Skeleton className="h-3 w-12" />
+                <Skeleton className="h-4 w-20" />
+              </span>
+            ))}
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   if (orders.length === 0) {
     return (

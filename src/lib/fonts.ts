@@ -1,22 +1,20 @@
 /*
- * Brand fonts. Swap the two families here and the whole site follows:
- * headings use `font-primary`, body/UI uses `font-secondary`.
- *
- * For licensed fonts, drop the files in public/fonts/ and use next/font/local:
- *   import localFont from "next/font/local";
- *   export const primary = localFont({ src: "../../public/fonts/brand/Brand.woff2", variable: "--ff-primary" });
+ * Brand fonts, served from public/fonts/. Headings and display type use
+ * `font-primary` (Louize Display); body and UI use `font-secondary` (Hanken Grotesk).
  */
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import localFont from "next/font/local";
 
-export const primary = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+export const primary = localFont({
+  src: [{ path: "../../public/fonts/LouizeDisplay.ttf", weight: "400", style: "normal" }],
   variable: "--ff-primary",
   display: "swap",
 });
 
-export const secondary = Inter({
-  subsets: ["latin"],
+export const secondary = localFont({
+  src: [
+    { path: "../../public/fonts/HankenGrotesk-VariableFont_wght.ttf", weight: "100 900", style: "normal" },
+    { path: "../../public/fonts/HankenGrotesk-Italic-VariableFont_wght.ttf", weight: "100 900", style: "italic" },
+  ],
   variable: "--ff-secondary",
   display: "swap",
 });

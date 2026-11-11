@@ -13,17 +13,17 @@ export default function ContactDetails() {
 
   return (
     <div className="flex flex-col gap-8">
-      <p className="text-body text-muted">
+      <p data-text-effect className="text-body text-muted">
         Questions about an order, sizing or delivery? Send us a message and we&apos;ll reply within one working day.
       </p>
       {rows.length > 0 ? (
-        <dl className="flex flex-col gap-6">
+        <dl data-stagger className="flex flex-col gap-6">
           {rows.map((row) => (
             <div key={row.label} className="flex flex-col gap-1">
               <dt className="text-eyebrow text-muted">{row.label}</dt>
               <dd className="text-body">
                 {row.href ? (
-                  <a href={row.href} className="hover:underline">
+                  <a href={row.href} className="link-line">
                     {row.value}
                   </a>
                 ) : (

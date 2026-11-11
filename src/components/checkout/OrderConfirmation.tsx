@@ -62,14 +62,16 @@ export default function OrderConfirmation({ orderId }: { orderId?: string }) {
         <Skeleton className="h-96" />
       ) : (
         order && (
-          <OrderSummary
-            lines={order.cart}
-            subtotal={order.totalprice}
-            discount={order.totalDiscount}
-            shipping={order.shippingAmount ?? 0}
-            tax={order.taxAmount}
-            total={order.orderPrice ?? order.discountedPrice ?? order.totalprice}
-          />
+          <div className="bg-surface p-6 md:p-8">
+            <OrderSummary
+              lines={order.cart}
+              subtotal={order.totalprice}
+              discount={order.totalDiscount}
+              shipping={order.shippingAmount ?? 0}
+              tax={order.taxAmount}
+              total={order.orderPrice ?? order.discountedPrice ?? order.totalprice}
+            />
+          </div>
         )
       )}
     </div>

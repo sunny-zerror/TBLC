@@ -2,8 +2,18 @@
 
 import { RiCloseLine } from "@remixicon/react";
 import { useLenis } from "lenis/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/utils/cn";
+
+const subscribe = () => () => {};
+/** False during SSR and hydration, true after — the portal target only exists in the browser */
+const useIsClient = () =>
+  useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
 interface DrawerProps {
   open: boolean;
@@ -17,6 +27,7 @@ interface DrawerProps {
 /** Side panel with overlay: Esc and overlay click close it, page scroll is paused while open */
 export default function Drawer({ open, onClose, title, side = "right", children, footer }: DrawerProps) {
   const lenis = useLenis();
+  const isClient = useIsClient();
   const panelRef = useRef<HTMLDivElement>(null);
   // The element that had focus before opening (usually the trigger button) gets it back on close
   const openerRef = useRef<HTMLElement | null>(null);
@@ -42,7 +53,11 @@ export default function Drawer({ open, onClose, title, side = "right", children,
     };
   }, [open, lenis, onClose]);
 
-  return (
+  if (!isClient) return null;
+
+  // Portalled to <body>: drawers are often rendered inside animated page content, and a transformed
+  // or fading ancestor would trap this fixed panel (wrong position, stuck under the header)
+  return createPortal(
     <div className={cn("fixed inset-0 z-50", !open && "pointer-events-none")} inert={!open}>
       <div
         onClick={onClose}
@@ -71,6 +86,7 @@ export default function Drawer({ open, onClose, title, side = "right", children,
         </div>
         {footer && <div className="shrink-0 border-t border-line p-6">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

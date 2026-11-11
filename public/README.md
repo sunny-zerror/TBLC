@@ -8,6 +8,9 @@ Static files, served from the site root (`public/images/home/hero.jpg` → `/ima
 | `images/about/` | About page photography |
 | `images/banners/` | Promo and collection banners |
 | `images/categories/` | Fallback category tiles (z-commerce `imgsrc` wins when set) |
+| `images/store/` | Store page editorial — the "Made for you" collage |
+| `images/textures/` | Background tiles — `paper.png` is the grain laid over every page and the footer |
+| `images/illustrations/` | Line drawings — the studio desk in the footer |
 | `images/products/` | Local product shots only — real product media comes from z-commerce |
 | `images/placeholder/` | Placeholders used while data is missing — keep `product.svg` |
 | `videos/` | Hero films and loops (`.mp4`, H.264, muted) — see `HERO_VIDEO` in `HomeHero.tsx` |

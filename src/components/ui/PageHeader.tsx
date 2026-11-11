@@ -12,9 +12,19 @@ interface PageHeaderProps {
 export default function PageHeader({ title, eyebrow, description, align = "left", className }: PageHeaderProps) {
   return (
     <header className={cn("flex flex-col gap-3", align === "center" && "items-center text-center", className)}>
-      {eyebrow && <p className="text-eyebrow text-muted">{eyebrow}</p>}
-      <h1>{title}</h1>
-      {description && <p className="max-w-2xl text-body-lg text-muted">{description}</p>}
+      {eyebrow && (
+        <p data-fade className="text-eyebrow text-muted">
+          {eyebrow}
+        </p>
+      )}
+      <h1 data-heading-effect data-delay="0.1">
+        {title}
+      </h1>
+      {description && (
+        <p data-text-effect data-delay="0.3" className="max-w-2xl text-body-lg text-muted">
+          {description}
+        </p>
+      )}
     </header>
   );
 }

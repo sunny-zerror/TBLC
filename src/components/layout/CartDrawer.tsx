@@ -30,14 +30,19 @@ export default function CartDrawer() {
         <span>{formatPrice(cart?.discountedPrice || cart?.totalprice)}</span>
       </div>
       <p className="text-caption text-muted">Shipping and taxes are calculated at checkout.</p>
-      <ButtonLink href="/checkout" onClick={close} fullWidth size="lg">
-        Checkout
-      </ButtonLink>
+      <div className="grid grid-cols-2 gap-3">
+        <ButtonLink href="/cart" onClick={close} variant="paper" size="lg">
+          <em className="text-flourish">View</em> CART
+        </ButtonLink>
+        <ButtonLink href="/checkout" onClick={close} variant="accent" size="lg">
+          <em className="text-flourish">Check</em> OUT
+        </ButtonLink>
+      </div>
     </div>
   ) : null;
 
   return (
-    <Drawer open={isOpen} onClose={close} title={`Your bag (${count})`} footer={footer}>
+    <Drawer open={isOpen} onClose={close} title={`Your cart (${count})`} footer={footer}>
       {loading ? (
         <div className="flex flex-col gap-6 p-6">
           {[0, 1].map((i) => (
@@ -52,7 +57,7 @@ export default function CartDrawer() {
         </div>
       ) : lines.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-6 p-6 text-center">
-          <p className="font-primary text-2xl">Your bag is empty</p>
+          <p className="text-title-sm">Your cart is empty</p>
           <ButtonLink href="/shop" onClick={close} variant="outline">
             Continue shopping
           </ButtonLink>

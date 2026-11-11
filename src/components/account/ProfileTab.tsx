@@ -58,7 +58,7 @@ export default function ProfileTab({ user }: { user: User }) {
   return (
     <div className="grid gap-section lg:grid-cols-2 lg:gap-stack">
       <form onSubmit={onProfile} className="flex flex-col gap-5">
-        <h2 className="text-3xl">Your details</h2>
+        <h2 className="text-title">Your details</h2>
         <div className="grid grid-cols-2 gap-4">
           <TextField
             label="First name"
@@ -99,7 +99,7 @@ export default function ProfileTab({ user }: { user: User }) {
       </form>
 
       <form onSubmit={onPassword} className="flex flex-col gap-5">
-        <h2 className="text-3xl">Password</h2>
+        <h2 className="text-title">Password</h2>
         <TextField
           label="Current password"
           name="currentPassword"

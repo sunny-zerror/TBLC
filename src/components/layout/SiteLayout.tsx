@@ -1,6 +1,7 @@
 import CartDrawer from "@/components/layout/CartDrawer";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import SiteChrome from "@/components/layout/SiteChrome";
 import AppProviders from "@/components/providers/AppProviders";
 
 /** Chrome shared by every page: providers, header, footer and the cart drawer */
@@ -13,9 +14,13 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       >
         Skip to content
       </a>
-      <Header />
+      <SiteChrome>
+        <Header />
+      </SiteChrome>
       <main id="main">{children}</main>
-      <Footer />
+      <SiteChrome>
+        <Footer />
+      </SiteChrome>
       <CartDrawer />
     </AppProviders>
   );

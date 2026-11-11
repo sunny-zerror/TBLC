@@ -10,26 +10,30 @@ export default function AboutContent() {
   return (
     <>
       <section className="section container grid gap-stack md:grid-cols-2">
-        <div className="aspect-[4/5] bg-surface" aria-hidden="true" />
+        <div data-image-reveal className="aspect-4/5 bg-surface" aria-hidden="true" />
         <div className="flex flex-col justify-center gap-6 text-body text-muted">
-          <h2 className="text-ink">Our story</h2>
-          <p>
+          <h2 data-heading-effect className="text-ink">
+            Our story
+          </h2>
+          <p data-text-effect data-delay="0.2">
             {siteConfig.name} began with a simple idea. Replace this copy with the founding story — who started the
             brand, what they set out to make and what still guides every collection.
           </p>
-          <p>A second paragraph for the craft, the people and the places behind the product.</p>
+          <p data-text-effect data-delay="0.3">
+            A second paragraph for the craft, the people and the places behind the product.
+          </p>
         </div>
       </section>
 
-      <section className="section bg-surface" aria-labelledby="about-values">
+      <section className="section bg-surface grain" aria-labelledby="about-values">
         <div className="container">
-          <h2 id="about-values" className="mb-stack">
+          <h2 id="about-values" data-heading-effect className="mb-stack">
             What we stand for
           </h2>
-          <ul className="grid gap-stack md:grid-cols-3">
+          <ul data-stagger className="grid gap-stack md:grid-cols-3">
             {values.map((v) => (
               <li key={v.title} className="flex flex-col gap-3 border-t border-ink pt-6">
-                <h3 className="text-2xl">{v.title}</h3>
+                <h3 className="text-title-sm">{v.title}</h3>
                 <p className="text-body text-muted">{v.body}</p>
               </li>
             ))}

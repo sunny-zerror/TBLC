@@ -1,23 +1,34 @@
 import { useId } from "react";
 import { cn } from "@/utils/cn";
 
-const fieldClass =
-  "h-12 w-full border border-line bg-paper px-4 text-body outline-none transition-colors placeholder:text-muted/70 focus:border-ink aria-[invalid=true]:border-sale";
+/** box: bordered inputs (account, auth, contact). line: underlined inputs on the page (checkout). */
+export type FieldVariant = "box" | "line";
+
+const fieldClasses: Record<FieldVariant, string> = {
+  box: "h-12 w-full border border-line bg-cream px-4 text-body outline-none transition-colors focus:border-ink aria-[invalid=true]:border-sale",
+  line: "h-11 w-full border-0 border-b border-ink bg-transparent px-0 text-body outline-none transition-colors focus:border-accent aria-[invalid=true]:border-sale",
+};
+
+const labelClasses: Record<FieldVariant, string> = {
+  box: "text-caption text-muted",
+  line: "text-eyebrow text-ink",
+};
 
 interface FieldShellProps {
   label: string;
+  variant?: FieldVariant;
   error?: string;
   hint?: string;
   className?: string;
   children: (id: string, describedBy?: string) => React.ReactNode;
 }
 
-function FieldShell({ label, error, hint, className, children }: FieldShellProps) {
+function FieldShell({ label, variant = "box", error, hint, className, children }: FieldShellProps) {
   const id = useId();
   const describedBy = error || hint ? `${id}-note` : undefined;
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="text-caption text-muted">
+    <div className={cn("flex flex-col", variant === "line" ? "gap-1" : "gap-1.5", className)}>
+      <label htmlFor={id} className={labelClasses[variant]}>
         {label}
       </label>
       {children(id, describedBy)}
@@ -30,17 +41,22 @@ function FieldShell({ label, error, hint, className, children }: FieldShellProps
   );
 }
 
-type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string; hint?: string };
+type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+  error?: string;
+  hint?: string;
+  variant?: FieldVariant;
+};
 
-export function TextField({ label, error, hint, className, ...props }: TextFieldProps) {
+export function TextField({ label, error, hint, variant = "box", className, ...props }: TextFieldProps) {
   return (
-    <FieldShell label={label} error={error} hint={hint} className={className}>
+    <FieldShell label={label} variant={variant} error={error} hint={hint} className={className}>
       {(id, describedBy) => (
         <input
           id={id}
           aria-invalid={Boolean(error) || undefined}
           aria-describedby={describedBy}
-          className={fieldClass}
+          className={fieldClasses[variant]}
           {...props}
         />
       )}
@@ -59,7 +75,7 @@ export function TextArea({ label, error, className, ...props }: TextAreaProps) {
           rows={5}
           aria-invalid={Boolean(error) || undefined}
           aria-describedby={describedBy}
-          className={cn(fieldClass, "h-auto py-3")}
+          className={cn(fieldClasses.box, "h-auto py-3")}
           {...props}
         />
       )}
@@ -70,18 +86,19 @@ export function TextArea({ label, error, className, ...props }: TextAreaProps) {
 type SelectFieldProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   label: string;
   error?: string;
+  variant?: FieldVariant;
   options: { value: string; label: string }[];
 };
 
-export function SelectField({ label, error, options, className, ...props }: SelectFieldProps) {
+export function SelectField({ label, error, variant = "box", options, className, ...props }: SelectFieldProps) {
   return (
-    <FieldShell label={label} error={error} className={className}>
+    <FieldShell label={label} variant={variant} error={error} className={className}>
       {(id, describedBy) => (
         <select
           id={id}
           aria-invalid={Boolean(error) || undefined}
           aria-describedby={describedBy}
-          className={fieldClass}
+          className={fieldClasses[variant]}
           {...props}
         >
           {options.map((o) => (
@@ -100,7 +117,7 @@ type CheckboxProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> &
 export function Checkbox({ label, className, ...props }: CheckboxProps) {
   return (
     <label className={cn("flex cursor-pointer items-center gap-3 text-caption", className)}>
-      <input type="checkbox" className="size-4 accent-ink" {...props} />
+      <input type="checkbox" className="size-4 shrink-0 accent-accent" {...props} />
       <span>{label}</span>
     </label>
   );

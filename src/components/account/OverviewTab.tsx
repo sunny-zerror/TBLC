@@ -39,7 +39,7 @@ export default function OverviewTab({ user }: { user: User }) {
               scroll={false}
               className="flex h-full flex-col gap-2 border border-line p-6 transition-colors hover:border-ink"
             >
-              <span className="font-primary text-2xl">{card.title}</span>
+              <span className="text-title-sm">{card.title}</span>
               <span className="text-caption text-muted">{card.body}</span>
             </Link>
           </li>

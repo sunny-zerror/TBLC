@@ -9,10 +9,14 @@ export default async function HomeFeatured() {
     <section className="section container" aria-labelledby="home-featured">
       <div className="mb-stack flex items-end justify-between gap-6">
         <div>
-          <p className="mb-3 text-eyebrow text-muted">Just in</p>
-          <h2 id="home-featured">New arrivals</h2>
+          <p data-fade className="mb-3 text-eyebrow text-muted">
+            Just in
+          </p>
+          <h2 id="home-featured" data-heading-effect>
+            New arrivals
+          </h2>
         </div>
-        <ButtonLink href="/shop" variant="ghost">
+        <ButtonLink href="/shop" variant="ghost" data-fade data-delay="0.3">
           View all
         </ButtonLink>
       </div>

@@ -6,13 +6,18 @@
  * --spacing-section → py-section, --spacing-gutter → px-gutter, etc.
  */
 @theme static {
-  /* Colour */
-  --color-ink: #111111; /* primary text, buttons */
-  --color-paper: #ffffff; /* page background */
-  --color-muted: #6b6b6b; /* secondary text */
-  --color-line: #e6e6e6; /* hairlines, borders */
-  --color-surface: #f5f5f3; /* cards, skeletons, image placeholders */
-  --color-accent: #b08d57; /* brand highlight */
+  /* Colour — The Bombay Lettering Company palette */
+  --color-ink: #110e0f; /* primary text, navigation, high-contrast details */
+  --color-ink-soft: #3e3739; /* long-form body copy */
+  --color-paper: #f7f4f4; /* page background (under the paper grain) */
+  --color-cream: #fcfafa; /* light buttons, badges, text on accent */
+  --color-muted: #4f4749; /* secondary text */
+  --color-placeholder: #9a9294; /* input placeholders */
+  --color-line: #b8959a; /* hairlines, borders */
+  --color-surface: #efe5e6; /* summary panels, badges, image placeholders */
+  --color-blush: #d8c0c4; /* photo mounts */
+  --color-accent: #7a565c; /* primary actions, active states, footer */
+  --color-accent-soft: #a67c82; /* counts beside headings */
   --color-sale: #b42318; /* discounts, errors */
   --color-success: #1f7a4d;
 
@@ -24,7 +29,7 @@
   --spacing-header: 4rem; /* header height — use pt-header under a fixed header */
 
   /* Layout */
-  --container-site: 90rem; /* max content width */
+  --container-site: 100rem; /* max content width */
 
   /* Easing */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
@@ -36,7 +41,14 @@
     --spacing-stack: 3.5rem;
     --spacing-grid: 1.5rem;
     --spacing-gutter: 2.5rem;
-    --spacing-header: 4.5rem;
+    --spacing-header: 6rem;
+  }
+}
+
+@media (width >= 80rem) {
+  :root {
+    --spacing-section: 7.5rem;
+    --spacing-gutter: 6rem;
   }
 }
 
@@ -49,6 +61,9 @@
 @theme {
   --animate-fade-up: fade-up 0.6s var(--ease-out-expo) both;
   --animate-skeleton: skeleton 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-progress: progress 5s linear both; /* gallery autoplay timer */
+  --animate-count-up: count-up 0.35s var(--ease-out-expo) both; /* quantity rolls in from below */
+  --animate-count-down: count-down 0.35s var(--ease-out-expo) both;
 
   @keyframes fade-up {
     from {
@@ -66,6 +81,29 @@
       transform: translateX(100%);
     }
   }
+
+  @keyframes count-up {
+    from {
+      opacity: 0;
+      transform: translateY(70%);
+    }
+  }
+
+  @keyframes count-down {
+    from {
+      opacity: 0;
+      transform: translateY(-70%);
+    }
+  }
+
+  @keyframes progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 }
 
 /* ---------- Base ----------------------------------------------------------- */
@@ -73,23 +111,56 @@
   html {
     /* Fluid root: 14px on phones → 16px on wide screens; every rem scales with it */
     font-size: clamp(0.875rem, 0.83rem + 0.19vw, 1rem);
-    /* Reserve the scrollbar's space so locking scroll (drawers) doesn't shift the page */
-    scrollbar-gutter: stable;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
+  /* Page scrollbar is hidden (it still scrolls); no gutter is reserved, so locking scroll never shifts layout */
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Themed scrollbar for every other scrollable element (drawers, modals, overflow areas) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-soft) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-accent-soft);
+    border-radius: 9999px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+  }
+
   body {
     min-height: 100dvh;
-    overflow-x: hidden;
-    background-color: var(--color-paper);
+    /* clip, not hidden: hidden makes <body> a scroll container once the drawer locks <html>,
+       which breaks the sticky header */
+    overflow-x: clip;
+    /* Paper grain over the base colour — the texture is a transparent tile */
+    background: var(--color-paper) url("/images/textures/paper.png") repeat;
     color: var(--color-ink);
     font-family: var(--font-secondary);
     line-height: 1.5;
   }
 
-  /* Heading scale — in the base layer so utilities (text-sm, leading-*) still win */
+  /*
+   * Heading scale — in the base layer so the type utilities below still win.
+   * Every heading shares one line height and tracking; resize with a text-title-* / text-display
+   * utility, never with Tailwind's text-xl, leading-*, tracking-*.
+   */
   h1,
   h2,
   h3,
@@ -98,8 +169,8 @@
   h6 {
     font-family: var(--font-primary);
     font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
@@ -153,13 +224,53 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
 
+  ::placeholder {
+    color: var(--color-placeholder);
+  }
+
   ::selection {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+    background-color: var(--color-accent);
+    color: var(--color-cream);
+  }
+
+  /* ---------- Motion (src/lib/motion.ts) ----------
+   * <html data-motion="on"> is set before first paint (layout.tsx) unless the visitor prefers
+   * reduced motion. Until <Motion /> wires an element up (data-motion-ready), keep it hidden so
+   * it never flashes before animating in. Failsafe: if JS hasn't started after 3s, show it. */
+  [data-motion="on"]
+    :is(
+      [data-heading-effect],
+      [data-text-effect],
+      [data-fade],
+      [data-image-reveal]:not([data-image-reveal="zoom"]),
+      [data-draw]
+    ):not([data-motion-ready]),
+  [data-motion="on"] :is([data-stagger], [data-slide-in]):not([data-motion-ready]) > * {
+    visibility: hidden;
+    animation: motion-failsafe 0s 3s forwards;
+  }
+
+  /* The zoom reveal stays visible (it's for LCP images): just start it slightly enlarged */
+  [data-motion="on"] [data-image-reveal="zoom"]:not([data-motion-ready]) :is(img, video) {
+    scale: 1.12;
+  }
+
+  @keyframes motion-failsafe {
+    to {
+      visibility: visible;
+    }
+  }
+
+  /* SplitText line/word masks: SplitText clips them with overflow, which would cut off italic
+     overhangs and descenders in tight headings. Clip with an outset clip-path instead. */
+  .split-line-mask,
+  .split-word-mask {
+    overflow: visible !important;
+    clip-path: inset(-0.2em -0.15em);
   }
 }
 
@@ -189,6 +300,65 @@
   object-fit: cover;
 }
 
+/* Text links: an underline draws in from the left on hover and leaves to the right.
+   aria-current="page" keeps it drawn, for the active nav item. */
+@utility link-line {
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1px;
+  transition:
+    background-size 0.6s var(--ease-out-expo),
+    color 0.3s;
+  &:hover,
+  &:focus-visible,
+  &[aria-current="page"] {
+    background-position: 0 100%;
+    background-size: 100% 1px;
+  }
+}
+
+/* Two-column section layout (1 : 1.6) — stacked on phones. Sections using it line up with each other */
+@utility grid-split {
+  display: grid;
+  gap: var(--spacing-stack);
+  @media (width >= 48rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    column-gap: 6rem;
+  }
+}
+
+/* Vertical candy stripes behind the course facts band */
+@utility bg-stripes {
+  background-image:
+    url("/images/textures/paper.png"),
+    repeating-linear-gradient(90deg, var(--color-surface) 0 1.5rem, transparent 1.5rem 3rem);
+}
+
+/* Paper grain over a section's own colour: pair with a bg-* colour (bg-surface grain, bg-accent grain) */
+@utility grain {
+  background-image: url("/images/textures/paper.png");
+  background-repeat: repeat;
+}
+
+/* Ticket tear line: even dashes in the current text colour, set the height for the thickness */
+@utility perforation {
+  /* One dash + gap per tile; "round" stretches the tiles slightly so a whole number fit — no cut-off dash */
+  background: linear-gradient(90deg, currentColor 0 57%, transparent 57%) 0 0 / 0.875rem 100% round;
+}
+
+/* Decorative barcode on workshop tickets; bars take the current text colour */
+@utility barcode {
+  background-image: repeating-linear-gradient(
+    90deg,
+    currentColor 0 2px,
+    transparent 2px 4px,
+    currentColor 4px 5px,
+    transparent 5px 8px,
+    currentColor 8px 11px,
+    transparent 11px 12px,
+    currentColor 12px 13px,
+    transparent 13px 16px
+  );
+}
+
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -196,32 +366,164 @@
   }
 }
 
-/* ---------- Type utilities (pair with the h1–h6 scale above) --------------- */
-@utility text-eyebrow {
-  font-size: 0.75rem;
+/* ---------- Type scale ------------------------------------------------------
+ * The only font sizes the site uses. Each utility sets size, line height and tracking
+ * together, so components never add Tailwind's text-xl / leading-* / tracking-*.
+ *
+ *  Serif (font-primary)            Sans (font-secondary, the body default)
+ *  text-display     hero h1         text-body-lg   intros, card names
+ *  text-display-sm  long hero h1    text-body      paragraphs
+ *  text-title-xl    statement h2    text-caption   meta, prices, small print
+ *  text-title-lg    section h2      text-small     tertiary links, notes
+ *  text-title       panel titles    text-cta       nav links, buttons, legal (uppercase)
+ *  text-title-sm    item names      text-eyebrow   labels, option chips (uppercase)
+ *  text-lead        serif lines, CTAs  text-stat      big sans figures
+ *
+ *  Modifiers: text-flourish (serif italic), text-count (the "(24)" beside a display heading),
+ *             text-aside (a smaller second line inside a heading)
+ * --------------------------------------------------------------------------- */
+
+/* Hero headings: "Store", "Your cart" */
+@utility text-display {
+  font-family: var(--font-primary);
+  font-size: clamp(4.5rem, 11vw, 9.75rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+/* Same hero style, sized down for long names: "Calligraphy Nameplates" */
+@utility text-display-sm {
+  font-family: var(--font-primary);
+  font-size: clamp(3rem, 6.5vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Statement headings: "Made in layers, by hand.", "Made for you." */
+@utility text-title-xl {
+  font-family: var(--font-primary);
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  @media (width >= 48rem) {
+    font-size: 4.5rem;
+  }
+}
+
+/* Section headings: "See also", auth page titles (same size as h1) */
+@utility text-title-lg {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  @media (width >= 48rem) {
+    font-size: 3.75rem;
+  }
+}
+
+/* Panel titles and totals: "Your details", "Subtotal ₹10,500", empty states */
+@utility text-title {
+  font-family: var(--font-primary);
+  font-size: 1.875rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  @media (width >= 48rem) {
+    font-size: 2.25rem;
+  }
+}
+
+/* Item names and small titles: cart lines, account cards, mobile menu links, product price */
+@utility text-title-sm {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  @media (width >= 48rem) {
+    font-size: 1.875rem;
+  }
+}
+
+/* Serif running lines and CTA labels: "Buy NOW", the personalise pitch, order line names */
+@utility text-lead {
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
   line-height: 1.4;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  @media (width >= 48rem) {
+    font-size: 1.375rem;
+  }
+}
+
+/* Big sans figures: "9 modules", "100+ page workbook" */
+@utility text-stat {
+  font-family: var(--font-secondary);
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  @media (width >= 48rem) {
+    font-size: 3.5rem;
+  }
+}
+
+/* The serif italic used for emphasis: "Made <em>for you.</em>", "<em>Check</em> OUT" */
+@utility text-flourish {
+  font-family: var(--font-primary);
+  font-style: italic;
+}
+
+/* A second, smaller line inside a heading: "The Classroom / learn with us" — relative to the heading */
+@utility text-aside {
+  font-size: 0.82em;
+  line-height: 1;
+}
+
+/* "(24)" beside a display heading — relative to the heading it sits in */
+@utility text-count {
+  font-size: 0.3em;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 @utility text-body-lg {
   font-size: 1.125rem;
-  line-height: 1.6;
+  line-height: 1.5;
+  letter-spacing: 0;
 }
 
 @utility text-body {
   font-size: 1rem;
   line-height: 1.6;
+  letter-spacing: 0;
 }
 
 @utility text-caption {
   font-size: 0.875rem;
   line-height: 1.5;
+  letter-spacing: 0;
 }
 
+@utility text-small {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* Uppercase UI text: header/footer links, small buttons, legal line */
 @utility text-cta {
   font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Uppercase labels: section labels, form legends, option chips */
+@utility text-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -240,6 +542,42 @@
   }
 }
 
+/* ---------- Page transitions (app/template.tsx) -----------------------------
+ * React's <ViewTransition> on route changes: the old page fades out quickly, then the new page
+ * fades in a little slower. The header is named and held still, so only the content changes. */
+::view-transition-old(.page) {
+  animation: 0.35s cubic-bezier(0.55, 0, 1, 0.45) both page-fade reverse;
+}
+::view-transition-new(.page) {
+  animation: 0.7s var(--ease-out-expo) 0.25s both page-fade;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The site header (view-transition-name: site-header) doesn't take part */
+::view-transition-group(site-header) {
+  z-index: 100;
+  animation: none;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* Clicks during the fade reach the live page instead of the transition overlay */
+::view-transition {
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -248,5 +586,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "lenis/dist/lenis.css";
 import "@/styles/globals.css";
 import SiteLayout from "@/components/layout/SiteLayout";
@@ -19,8 +20,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={siteConfig.language} className={fontVariables}>
-      <body>
+    // data-motion is set by the script below before hydration, so <html> differs from the server render on purpose
+    <html lang={siteConfig.language} className={fontVariables} suppressHydrationWarning>
+      {/* Extensions (ColorZilla, Grammarly…) add attributes to <body> before hydration; ignore those, children are still checked */}
+      <body suppressHydrationWarning>
+        {/* Before first paint: lets globals.css hide what <Motion /> will animate in (skipped for reduced motion) */}
+        <Script id="motion-flag" strategy="beforeInteractive">
+          {`if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.motion="on"`}
+        </Script>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <SiteLayout>{children}</SiteLayout>
       </body>

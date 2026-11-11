@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import ProductDetails from "@/components/product/ProductDetails";
 import ProductGallery from "@/components/product/ProductGallery";
-import ProductGrid from "@/components/product/ProductGrid";
 import ProductPurchase from "@/components/product/ProductPurchase";
+import SeeAlso, { SeeAlsoSkeleton } from "@/components/product/SeeAlso";
 import JsonLd from "@/components/seo/JsonLd";
-import Accordion from "@/components/ui/Accordion";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { productSchema } from "@/lib/schema";
 import { createMetadata } from "@/lib/seo";
-import { getProduct, getRelatedProducts } from "@/services/catalog";
+import { getProduct } from "@/services/catalog";
 import { primaryImage } from "@/utils/media";
 import { productHref } from "@/utils/url";
 
@@ -37,51 +38,52 @@ export default async function ProductPage({ params }: { params: Params }) {
   const product = await getProduct(slug);
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product);
   const category = product.categories?.[0];
-  const details = [
-    ...(product.description
-      ? [{ title: "Description", content: <p className="whitespace-pre-line">{product.description}</p> }]
-      : []),
-    ...(product.additionalInfo ?? []).map((info) => ({
-      title: info.title,
-      // z-commerce stores rich text here; render as text unless you trust and sanitise the HTML
-      content: <p className="whitespace-pre-line">{info.description.replace(/<[^>]+>/g, "")}</p>,
-    })),
-  ];
 
   return (
     <>
       <JsonLd data={productSchema(product)} />
-      <section className="container pt-6 pb-section">
+      <div className="container pt-6">
         <Breadcrumbs
           items={[
-            { name: "Shop", path: "/shop" },
+            { name: "Store", path: "/shop" },
             ...(category ? [{ name: category.name, path: `/shop?category=${category.slug}` }] : []),
             { name: product.name, path: productHref(product.slug) },
           ]}
         />
-        <div className="mt-6 grid gap-stack md:grid-cols-[3fr_2fr]">
-          <ProductGallery assets={product.assets} name={product.name} />
-          <div className="flex flex-col gap-8 md:sticky md:top-[calc(var(--spacing-header)+1.5rem)] md:self-start">
-            <header className="flex flex-col gap-3">
-              {product.ribbon?.name && <p className="text-eyebrow text-accent">{product.ribbon.name}</p>}
-              <h1 className="text-4xl md:text-5xl">{product.name}</h1>
-            </header>
-            <ProductPurchase product={product} />
-            {details.length > 0 && <Accordion items={details} />}
+      </div>
+
+      <section className="container grid items-start gap-x-16 gap-y-stack pt-5 pb-section md:grid-cols-[minmax(0,1fr)_minmax(0,32rem)]">
+        <ProductGallery assets={product.assets} name={product.name} />
+        {/* Top-aligned with the gallery and sticky under the header while the tall image scrolls */}
+        <div className="md:sticky md:top-[calc(var(--spacing-header)+1.5rem)]">
+          {product.ribbon?.name && (
+            <p data-fade className="mb-6 inline-block bg-surface px-2.5 py-1 text-flourish text-body">
+              {product.ribbon.name}
+            </p>
+          )}
+          {/* Keyed so moving between products replaces the split heading rather than editing its text */}
+          <h1 key={product._id} data-heading-effect data-delay="0.1">
+            {product.name}
+          </h1>
+          <div data-fade data-delay="0.35">
+            <ProductPurchase product={product}>
+              {category && <p className="mt-2 text-caption text-muted">{category.name}</p>}
+              {product.description && (
+                <p className="mt-10 text-body whitespace-pre-line text-ink-soft">{product.description}</p>
+              )}
+            </ProductPurchase>
           </div>
         </div>
       </section>
 
-      {related.length > 0 && (
-        <section className="section container border-t border-line" aria-labelledby="related">
-          <h2 id="related" className="mb-stack">
-            You may also like
-          </h2>
-          <ProductGrid products={related} priorityCount={0} />
-        </section>
-      )}
+      <ProductDetails product={product} />
+
+      {/* Streams in after the product: the 404 check above has already run, so this Suspense
+          can't affect the status code (unlike a loading.tsx — see CLAUDE.md "Real 404s") */}
+      <Suspense fallback={<SeeAlsoSkeleton />}>
+        <SeeAlso product={product} />
+      </Suspense>
     </>
   );
 }

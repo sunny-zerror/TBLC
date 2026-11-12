@@ -58,12 +58,12 @@ export default function OrderSummary({
     <section aria-labelledby="order-summary" className="flex flex-col">
       <h2 id="order-summary" className="flex flex-wrap items-baseline gap-x-7">
         <span data-heading-effect="words">{title}</span>
-        <span data-fade="in" data-delay="0.4" className="text-lead text-accent">
+        <span className="text-lead text-accent">
           ({items} {items === 1 ? "item" : "items"})
         </span>
       </h2>
 
-      <ul data-stagger data-delay="0.2" className="mt-9 flex flex-col gap-7 border-b border-line pb-7">
+      <ul className="mt-9 flex flex-col gap-7 border-b border-line pb-7">
         {lines.map((line) => (
           <li key={`${line.productId}-${line.variantDetail?.variantDetailId ?? ""}`} className="flex gap-6">
             <div className="relative aspect-5/6 w-21 shrink-0 bg-blush">
@@ -105,7 +105,7 @@ export default function OrderSummary({
       </ul>
 
       {coupon && (
-        <div data-fade data-delay="0.3" className="mt-8">
+        <div className="mt-8">
           {coupon.code ? (
             <div className="flex items-center justify-between text-caption">
               <span>
@@ -142,7 +142,7 @@ export default function OrderSummary({
         </div>
       )}
 
-      <dl data-fade data-delay="0.35" className="mt-10 flex flex-col gap-4.5 border-t border-line pt-7 text-body">
+      <dl className="mt-10 flex flex-col gap-4.5 border-t border-line pt-7 text-body">
         <div className="flex justify-between gap-4">
           <dt>Subtotal</dt>
           <dd>{formatPrice(subtotal)}</dd>
@@ -166,15 +166,11 @@ export default function OrderSummary({
           </div>
         )}
       </dl>
-      <p
-        data-fade
-        data-delay="0.45"
-        className="mt-7 flex items-baseline justify-between gap-4 border-t border-line pt-7 text-title"
-      >
+      <p className="mt-7 flex items-baseline justify-between gap-4 border-t border-line pt-7 text-title">
         <span>Total</span>
         <span className="text-accent">{formatPrice(total)}</span>
       </p>
-      <p data-fade="in" data-delay="0.5" className="mt-7 text-small text-ink-soft">
+      <p className="mt-7 text-small text-ink-soft">
         Prices in INR. International cards are charged in your card’s currency.
       </p>
     </section>

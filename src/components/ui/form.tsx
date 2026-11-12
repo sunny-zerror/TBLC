@@ -64,18 +64,22 @@ export function TextField({ label, error, hint, variant = "box", className, ...p
   );
 }
 
-type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; error?: string };
+type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label: string;
+  error?: string;
+  variant?: FieldVariant;
+};
 
-export function TextArea({ label, error, className, ...props }: TextAreaProps) {
+export function TextArea({ label, error, variant = "box", className, ...props }: TextAreaProps) {
   return (
-    <FieldShell label={label} error={error} className={className}>
+    <FieldShell label={label} variant={variant} error={error} className={className}>
       {(id, describedBy) => (
         <textarea
           id={id}
-          rows={5}
+          rows={variant === "line" ? 3 : 5}
           aria-invalid={Boolean(error) || undefined}
           aria-describedby={describedBy}
-          className={cn(fieldClasses.box, "h-auto py-3")}
+          className={cn(fieldClasses[variant], "h-auto", variant === "line" ? "resize-none py-2" : "py-3")}
           {...props}
         />
       )}

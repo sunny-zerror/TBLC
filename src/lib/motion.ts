@@ -4,22 +4,22 @@
  * renders — so pages and components only add the attribute:
  *
  *   data-heading-effect      headings: masked lines slide up        ="words" → word by word
- *   data-text-effect         paragraphs: lines rise out of a blur
- *   data-fade                a block fades up                       ="down" | ="in" (no movement)
+ *   data-fade                a block fades up a touch (buttons, a key block)   ="down" | ="in" (no movement)
  *   data-stagger             its children fade up one after another, row by row   ="0.15" → gap
  *   data-slide-in            its children slide in from the right edge of the screen, 0.35s apart,
  *                            and back out when you scroll above it   ="left" → from the left
- *   data-image-reveal        a media wrapper wipes open while the image settles from a zoom
- *                            ="zoom" → no wipe, visible from first paint (for a page's main image)
+ *   data-image-reveal        a media wrapper fades in out of a soft blur while the image settles
+ *                            ="zoom" → no fade, visible from first paint (for a page's main image)
  *   data-parallax            an image (inside a clipped wrapper) drifts with the scroll   ="0.2" → depth
  *   data-counter             a number counts up: "100+" → 0+ … 100+
  *   data-draw                a hairline draws in from the left
  *   data-delay="0.2"         extra delay in seconds, for any of the above
  *
  * Rules of thumb
- * - Text effects split the element's text into lines, so use them only on text that doesn't
- *   change while mounted (or key the element by its text), on elements without flex/grid
- *   children, and not on paragraphs that contain links — use data-fade there.
+ * - Keep it minimal: in a section, animate the heading, its key image and its main button(s).
+ *   Paragraphs, labels, meta lines, lists, forms and site chrome stay still.
+ * - The heading effect splits the element's text into lines, so use it only on text that doesn't
+ *   change while mounted (or key the element by its text), and not on elements with flex/grid children.
  * - Every reveal plays on the way down and reverses when you scroll back above it
  *   (toggleActions "play none none reverse"); data-parallax scrubs instead.
  * - Don't nest effects that move the same thing (e.g. data-fade inside data-stagger).
@@ -89,33 +89,13 @@ const EFFECTS = {
     });
   },
 
-  "data-text-effect": (el, delay) => {
-    SplitText.create(el, {
-      type: "lines",
-      linesClass: "split-line",
-      autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.lines, {
-          autoAlpha: 0,
-          y: 14,
-          filter: "blur(8px)",
-          duration: 1.2,
-          ease: "power3.out",
-          stagger: 0.08,
-          delay,
-          clearProps: "filter",
-          scrollTrigger: onScroll(el),
-        }),
-    });
-  },
-
   "data-fade": (el, delay) => {
     const mode = el.dataset.fade;
     gsap.from(el, {
       autoAlpha: 0,
-      y: mode === "in" ? 0 : mode === "down" ? -24 : 32,
-      duration: 1.2,
-      ease: MOTION.ease,
+      y: mode === "in" ? 0 : mode === "down" ? -12 : 16,
+      duration: 0.9,
+      ease: "power2.out",
       delay,
       clearProps: "transform",
       scrollTrigger: onScroll(el),
@@ -127,7 +107,7 @@ const EFFECTS = {
     if (items.length === 0) return;
     const gap = parseFloat(el.dataset.stagger ?? "") || MOTION.stagger;
     const starts = new Map(items.map((item) => [item, startFor(item)]));
-    gsap.set(items, { autoAlpha: 0, y: 40 });
+    gsap.set(items, { autoAlpha: 0, y: 20 });
     // One trigger per item, played in batches: a grid reveals row by row as it scrolls in, and
     // hides again row by row when you scroll back above it (batch has no toggleActions, so the
     // reverse is its own tween)
@@ -137,14 +117,14 @@ const EFFECTS = {
         gsap.to(batch, {
           autoAlpha: 1,
           y: 0,
-          duration: 1.2,
-          ease: MOTION.ease,
+          duration: 0.9,
+          ease: "power2.out",
           stagger: gap,
           delay,
           overwrite: true,
         }),
       onLeaveBack: (batch) =>
-        gsap.to(batch, { autoAlpha: 0, y: 40, duration: 0.6, ease: "power2.in", stagger: gap / 2, overwrite: true }),
+        gsap.to(batch, { autoAlpha: 0, y: 20, duration: 0.5, ease: "power2.in", stagger: gap / 2, overwrite: true }),
     });
   },
 
@@ -186,26 +166,34 @@ const EFFECTS = {
   },
 
   "data-image-reveal": (el, delay) => {
-    // ="zoom": no wipe, the image is visible from first paint and only settles — use it for the
+    // ="zoom": no fade, the image is visible from first paint and only settles — use it for the
     // page's main (LCP) image, so the reveal never delays Largest Contentful Paint
     const zoomOnly = el.dataset.imageReveal === "zoom";
     const media = el.querySelector<HTMLElement>("img, video");
     const settle = media ? parallaxScale(media) : 1;
     const tl = gsap.timeline({ delay, scrollTrigger: onScroll(el) });
     if (!zoomOnly) {
-      // The final inset(0%) stays: it clips like overflow-hidden, so a parallax image can't spill out
+      // Comes into focus: fades up out of a soft blur. The filter is cleared afterwards — a resting
+      // blur(0) still costs a compositing layer
       tl.fromTo(
         el,
-        { clipPath: "inset(100% 0% 0% 0%)" },
-        { clipPath: "inset(0% 0% 0% 0%)", duration: 1.6, ease: MOTION.wipe, immediateRender: true },
+        { autoAlpha: 0, filter: "blur(16px)" },
+        {
+          autoAlpha: 1,
+          filter: "blur(0px)",
+          duration: 1.4,
+          ease: "power2.out",
+          immediateRender: true,
+          clearProps: "filter",
+        },
       );
     }
     if (media) {
       tl.fromTo(
         media,
-        // The zoom variant starts where its CSS pre-scale left it (see globals.css)
-        { scale: settle + (zoomOnly ? 0.12 : 0.25) },
-        { scale: settle, duration: 2.2, ease: MOTION.ease, immediateRender: true },
+        // A gentle settle under the fade; the zoom variant starts where its CSS pre-scale left it (see globals.css)
+        { scale: settle + (zoomOnly ? 0.12 : 0.08) },
+        { scale: settle, duration: 1.8, ease: MOTION.ease, immediateRender: true },
         0,
       );
     }

@@ -31,7 +31,7 @@ export default function StorePersonalise() {
         <h2 id="made-for-you" data-heading-effect className="text-title-xl">
           Made <em className="text-flourish text-accent">for you.</em>
         </h2>
-        <p data-text-effect data-delay="0.2" className="mt-7 text-lead text-muted">
+        <p className="mt-7 text-lead text-muted">
           Nameplates, stationery, vow booklets and keepsakes, personalised with your names or words. Choose a lettering
           style (Classic, Devnagari or Whimsical) and we letter it by hand.
         </p>

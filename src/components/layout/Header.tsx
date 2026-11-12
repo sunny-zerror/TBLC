@@ -43,7 +43,7 @@ export default function Header() {
     <>
       {/* Named so page view transitions (globals.css) leave it still while the content fades */}
       <header className="sticky top-0 z-40 border-b border-line bg-paper [view-transition-name:site-header]">
-        <div data-fade="down" className="container grid h-header grid-cols-[1fr_auto_1fr] items-center gap-6">
+        <div className="container grid h-header grid-cols-[1fr_auto_1fr] items-center gap-6">
           <div className="flex items-center">
             <button onClick={() => setMenuOpen(true)} aria-label="Open menu" className="-ml-2 p-2 md:hidden">
               <RiMenuLine className="size-5" />

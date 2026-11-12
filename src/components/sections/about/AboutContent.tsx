@@ -15,13 +15,11 @@ export default function AboutContent() {
           <h2 data-heading-effect className="text-ink">
             Our story
           </h2>
-          <p data-text-effect data-delay="0.2">
+          <p>
             {siteConfig.name} began with a simple idea. Replace this copy with the founding story — who started the
             brand, what they set out to make and what still guides every collection.
           </p>
-          <p data-text-effect data-delay="0.3">
-            A second paragraph for the craft, the people and the places behind the product.
-          </p>
+          <p>A second paragraph for the craft, the people and the places behind the product.</p>
         </div>
       </section>
 

@@ -58,15 +58,13 @@ export default async function ProductPage({ params }: { params: Params }) {
         {/* Top-aligned with the gallery and sticky under the header while the tall image scrolls */}
         <div className="md:sticky md:top-[calc(var(--spacing-header)+1.5rem)]">
           {product.ribbon?.name && (
-            <p data-fade className="mb-6 inline-block bg-surface px-2.5 py-1 text-flourish text-body">
-              {product.ribbon.name}
-            </p>
+            <p className="mb-6 inline-block bg-surface px-2.5 py-1 text-flourish text-body">{product.ribbon.name}</p>
           )}
           {/* Keyed so moving between products replaces the split heading rather than editing its text */}
           <h1 key={product._id} data-heading-effect data-delay="0.1">
             {product.name}
           </h1>
-          <div data-fade data-delay="0.35">
+          <div>
             <ProductPurchase product={product}>
               {category && <p className="mt-2 text-caption text-muted">{category.name}</p>}
               {product.description && (

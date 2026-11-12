@@ -29,25 +29,18 @@ export default function StoreHeader({ title, count, intro, categories, filters, 
           <span key={title} data-heading-effect="words" className="min-w-0">
             {title}
           </span>
-          <span data-fade="in" data-delay="0.5" className="mt-[-0.1em] shrink-0 text-count text-accent-soft">
-            ({count})
-          </span>
+          <span className="mt-[-0.1em] shrink-0 text-count text-accent-soft">({count})</span>
         </h1>
         <p
           key={intro}
-          data-text-effect
-          data-delay="0.3"
+
           className="max-w-68 font-primary text-body-lg text-muted xl:mr-36"
         >
           {intro}
         </p>
       </div>
 
-      <div
-        data-fade
-        data-delay="0.4"
-        className="mt-stack flex items-start justify-between gap-6 border-b border-line pb-6 md:pb-12"
-      >
+      <div className="mt-stack flex items-start justify-between gap-6 border-b border-line pb-6 md:pb-12">
         {categories.length > 0 ? (
           <nav aria-label="Categories" className="no-scrollbar min-w-0 overflow-x-auto">
             <ul className="flex gap-x-8 font-primary text-body xl:gap-x-14">

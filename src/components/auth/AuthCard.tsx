@@ -15,14 +15,10 @@ export default function AuthCard({ title, description, footer, children }: AuthC
           <h1 data-heading-effect className="text-title-lg">
             {title}
           </h1>
-          <p data-text-effect data-delay="0.2" className="text-body text-muted">
-            {description}
-          </p>
+          <p className="text-body text-muted">{description}</p>
         </header>
-        <div data-fade data-delay="0.35">
-          {children}
-        </div>
-        <p data-fade="in" data-delay="0.5" className="text-center text-caption text-muted">
+        <div>{children}</div>
+        <p className="text-center text-caption text-muted">
           {footer.text}{" "}
           <Link href={footer.href} className="text-ink underline underline-offset-4">
             {footer.linkLabel}

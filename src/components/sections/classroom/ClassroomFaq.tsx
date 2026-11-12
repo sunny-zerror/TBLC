@@ -17,7 +17,7 @@ export default function ClassroomFaq() {
             Before you <em className="block text-flourish text-accent">enrol</em>
           </h2>
           {/* Has links, so it fades as a block rather than splitting into lines */}
-          <p data-fade data-delay="0.3" className="mt-6 max-w-xs text-caption text-muted">
+          <p className="mt-6 max-w-xs text-caption text-muted">
             Anything else? <br /> Write to{" "}
             <a href={`mailto:${email}`} className={linkClass}>
               {email}
@@ -31,7 +31,7 @@ export default function ClassroomFaq() {
           </p>
         </div>
 
-        <div data-fade data-delay="0.2">
+        <div>
           <Accordion
             size="lg"
             defaultOpen={0}

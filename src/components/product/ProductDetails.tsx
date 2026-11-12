@@ -47,7 +47,7 @@ export default function ProductDetails({ product }: { product: Product }) {
         </div>
       )}
 
-      <dl data-stagger className="text-caption text-ink-soft md:col-start-2 md:row-start-2 md:self-start">
+      <dl className="text-caption text-ink-soft md:col-start-2 md:row-start-2 md:self-start">
         {info.map((item, i) => (
           <div key={item.title} className={cn("flex flex-wrap gap-2 border-b border-line", i === 0 ? "pb-8" : "py-6")}>
             <dt className="shrink-0 basis-50 text-eyebrow text-ink">{item.title}</dt>

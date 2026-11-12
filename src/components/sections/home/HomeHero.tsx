@@ -20,9 +20,7 @@ export default function HomeHero() {
         />
       )}
       <div className="relative container pb-section">
-        <p data-fade className="mb-4 text-eyebrow text-muted">
-          New season
-        </p>
+        <p className="mb-4 text-eyebrow text-muted">New season</p>
         <h1 data-heading-effect data-delay="0.15" className="max-w-4xl">
           {siteConfig.tagline}
         </h1>

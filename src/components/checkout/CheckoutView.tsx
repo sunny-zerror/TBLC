@@ -158,7 +158,7 @@ export default function CheckoutView() {
       <div className="order-2 px-gutter pt-12 pb-section lg:order-1 lg:pr-20">
         <div className="flex max-w-170 flex-col">
           {!isLoggedIn && (
-            <p data-fade className="text-body text-ink-soft">
+            <p className="text-body text-ink-soft">
               Have an account?{" "}
               <Link href="/login?next=/checkout" className="border-b border-accent text-ink hover:text-accent">
                 Log in
@@ -173,7 +173,7 @@ export default function CheckoutView() {
                 Contact
               </h2>
             </legend>
-            <div data-fade data-delay="0.25" className="mt-8 flex flex-col gap-6">
+            <div className="mt-8 flex flex-col gap-6">
               <TextField
                 label="Email"
                 name="email"
@@ -208,7 +208,7 @@ export default function CheckoutView() {
                 ))}
               </div>
             )}
-            <div data-fade data-delay="0.15" className="mt-8">
+            <div className="mt-8">
               <AddressFields prefix="shipping" defaults={shippingDefaults} variant="line" contact={false} />
             </div>
             <Checkbox
@@ -224,7 +224,7 @@ export default function CheckoutView() {
               <legend className="contents">
                 <h2 data-heading-effect>Billing</h2>
               </legend>
-              <div data-fade data-delay="0.15" className="mt-8">
+              <div className="mt-8">
                 <AddressFields prefix="billing" variant="line" />
               </div>
             </fieldset>
@@ -234,11 +234,7 @@ export default function CheckoutView() {
             <h2 id="payment" data-heading-effect>
               Payment
             </h2>
-            <p
-              data-fade
-              data-delay="0.15"
-              className="mt-8 flex min-h-18 items-center border border-ink px-5 text-body text-ink-soft"
-            >
+            <p className="mt-8 flex min-h-18 items-center border border-ink px-5 text-body text-ink-soft">
               UPI &nbsp;·&nbsp; Cards &nbsp;·&nbsp; Net banking &nbsp;·&nbsp; International cards
             </p>
             <Button
@@ -280,11 +276,7 @@ export default function CheckoutView() {
             onRemoveLine={(line) => void removeItem(line)}
             busy={busy}
           />
-          <p
-            data-fade="in"
-            data-delay="0.5"
-            className="mt-14 flex items-center justify-center gap-2 text-caption text-ink-soft"
-          >
+          <p className="mt-14 flex items-center justify-center gap-2 text-caption text-ink-soft">
             <RiLockLine className="size-3.5" aria-hidden="true" />
             Secure checkout
           </p>

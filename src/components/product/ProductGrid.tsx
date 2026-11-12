@@ -12,11 +12,7 @@ export default function ProductGrid({
   headingLevel?: "h2" | "h3";
 }) {
   if (products.length === 0) {
-    return (
-      <p data-fade className="py-section text-center text-lead text-muted">
-        No pieces here yet.
-      </p>
-    );
+    return <p className="py-section text-center text-lead text-muted">No pieces here yet.</p>;
   }
   return (
     <ul data-stagger className="grid gap-grid sm:grid-cols-2 lg:grid-cols-3">

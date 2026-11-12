@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
     // Tighten this to that host once it's known (e.g. "assets.brand.com").
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
+  // Posts lived at /post/<slug> on the old Wix site: keep those links (and their rankings) working
+  async redirects() {
+    return [
+      { source: "/post/:slug", destination: "/blog/:slug", permanent: true },
+      { source: "/blog/categories/:category", destination: "/blog?category=:category", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

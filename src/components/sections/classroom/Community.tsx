@@ -23,7 +23,7 @@ export default function Community() {
         <h2 id="community" data-heading-effect className="text-title-xl">
           Join the <em className="text-flourish text-accent">community</em>
         </h2>
-        <p data-text-effect data-delay="0.2" className="mx-auto mt-3 max-w-60 text-body text-muted">
+        <p className="mx-auto mt-3 max-w-60 text-body text-muted">
           share your practice sheets with us, we may feature yours!
         </p>
       </header>
@@ -73,7 +73,7 @@ export default function Community() {
         </Swiper>
       </div>
 
-      <div data-fade data-delay="0.3">
+      <div>
         <CarouselControls {...controls} labels={communityPosts.map((p) => p.label)} className="container mt-8" />
       </div>
 

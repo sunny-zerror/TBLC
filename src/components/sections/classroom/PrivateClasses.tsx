@@ -21,10 +21,10 @@ export default function PrivateClasses() {
         <h2 id="private-classes" data-heading-effect className="text-title-xl">
           Private <em className="text-flourish text-accent">classes</em>
         </h2>
-        <p data-text-effect data-delay="0.2" className="mt-3 max-w-lg text-body text-muted">
+        <p className="mt-3 max-w-lg text-body text-muted">
           Choose your script, your pace and your hours: in the studio in Colaba, or online.
         </p>
-        <ul data-stagger="0.08" data-delay="0.3" className="mt-6 max-w-xl">
+        <ul className="mt-6 max-w-xl">
           {privateClassSubjects.map((subject) => (
             <li key={subject} className="border-b border-accent-soft py-5 text-cta">
               {subject}

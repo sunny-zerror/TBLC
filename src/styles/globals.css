@@ -64,6 +64,7 @@
   --animate-progress: progress 5s linear both; /* gallery autoplay timer */
   --animate-count-up: count-up 0.35s var(--ease-out-expo) both; /* quantity rolls in from below */
   --animate-count-down: count-down 0.35s var(--ease-out-expo) both;
+  --animate-checkpoint: checkpoint 2.4s cubic-bezier(0, 0, 0.2, 1) infinite; /* map pin: a ring ripples out */
 
   @keyframes fade-up {
     from {
@@ -86,6 +87,17 @@
     from {
       opacity: 0;
       transform: translateY(70%);
+    }
+  }
+
+  @keyframes checkpoint {
+    from {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(4);
     }
   }
 
@@ -242,13 +254,9 @@
    * reduced motion. Until <Motion /> wires an element up (data-motion-ready), keep it hidden so
    * it never flashes before animating in. Failsafe: if JS hasn't started after 3s, show it. */
   [data-motion="on"]
-    :is(
-      [data-heading-effect],
-      [data-text-effect],
-      [data-fade],
-      [data-image-reveal]:not([data-image-reveal="zoom"]),
-      [data-draw]
-    ):not([data-motion-ready]),
+    :is([data-heading-effect], [data-fade], [data-image-reveal]:not([data-image-reveal="zoom"]), [data-draw]):not(
+      [data-motion-ready]
+    ),
   [data-motion="on"] :is([data-stagger], [data-slide-in]):not([data-motion-ready]) > * {
     visibility: hidden;
     animation: motion-failsafe 0s 3s forwards;

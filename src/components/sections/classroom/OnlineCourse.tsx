@@ -22,19 +22,14 @@ export default function OnlineCourse() {
         <h2 id="online-courses" data-heading-effect className="text-title-xl text-flourish">
           Online Courses
         </h2>
-        <p data-text-effect data-delay="0.2" className="mt-4 max-w-md text-body-lg text-muted">
+        <p className="mt-4 max-w-md text-body-lg text-muted">
           A self-paced Copperplate course: nine modules of short, follow-along videos.
         </p>
 
         <div className="relative mt-8 pt-6">
           <span aria-hidden="true" data-draw data-delay="0.3" className="absolute inset-x-0 top-0 h-px bg-line" />
-          <h3 data-fade className="text-eyebrow text-accent">
-            The breakdown
-          </h3>
-          <ol
-            data-stagger="0.06"
-            className="mt-5 grid gap-x-12 gap-y-2.5 text-body sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-5"
-          >
+          <h3 className="text-eyebrow text-accent">The breakdown</h3>
+          <ol className="mt-5 grid gap-x-12 gap-y-2.5 text-body sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-5">
             {courseModules.map((module, i) => (
               <li key={module} className="flex gap-2">
                 <span className="w-5 shrink-0 text-accent-soft tabular-nums">{i + 1}.</span>
@@ -49,13 +44,13 @@ export default function OnlineCourse() {
 
         <div data-fade className="mt-stack flex flex-wrap items-center gap-x-10 gap-y-5">
           <ButtonLink href={classroomLinks.collective} variant="accent" size="lg">
-            <em className="text-flourish">Visit the</em> COLLECTIVE ↗
+            <em className="text-flourish">Visit the</em> COLLECTIVE
           </ButtonLink>
           <Link
             href={classroomLinks.miniCourse}
             className="font-primary text-caption text-accent underline underline-offset-4 transition-colors hover:text-ink"
           >
-            Join the free mini course ↗
+            Join the free mini course
           </Link>
         </div>
       </div>

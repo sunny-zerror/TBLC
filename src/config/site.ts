@@ -27,21 +27,25 @@ export const siteConfig = {
   contact: {
     phone: "+91 82919 88792", // international format, e.g. "+91 22 0000 0000"
     email: "contact@bombaylettering.com",
+    careersEmail: "opportunities@bombaylettering.com", // the "Join our team" note on /contact
     hours: "", // e.g. "Monday to Saturday, 10:00 – 19:00 IST"
   },
   address: {
-    street: "Doli Chambers, Colaba",
+    street: "Doli Chambers, Brahmakumaris Marg, Apollo Bandar, Colaba",
     city: "Mumbai",
     state: "Maharashtra",
-    postalCode: "",
+    postalCode: "400005",
     country: "IN",
+    /** The studio pin on the /contact map */
+    geo: { lat: 18.9180828, lng: 72.8296929 },
   },
+  /* Listed in this order on /contact and in the footer */
   socials: {
-    instagram: "",
-    facebook: "",
+    instagram: "https://www.instagram.com/bombaylettering/",
+    pinterest: "https://www.pinterest.com/bombaylettering/",
+    facebook: "https://www.facebook.com/bombaylettering/",
+    youtube: "https://www.youtube.com/channel/UC1JAxFpihFZ2sFcZLbyhltw",
     x: "",
-    youtube: "",
-    pinterest: "",
   },
   /** @handle for X / Twitter cards */
   twitterHandle: "",
@@ -69,6 +73,13 @@ export const siteRoutes: SiteRoute[] = [
     priority: 0.8,
   },
   {
+    path: "/blog",
+    title: "The Blog",
+    description:
+      "Calligraphy tutorials, tools and supplies, and the business of lettering — notes from Sanjana and the Colaba studio.",
+    priority: 0.7,
+  },
+  {
     path: "/about",
     title: "About Us",
     description: `The story behind ${siteConfig.name}.`,
@@ -77,7 +88,7 @@ export const siteRoutes: SiteRoute[] = [
   {
     path: "/contact",
     title: "Contact Us",
-    description: `Questions about an order, sizing or delivery? Get in touch with ${siteConfig.name}.`,
+    description: `Weddings, branding, gifting or classes: tell ${siteConfig.name} about your date, idea or project.`,
     priority: 0.5,
   },
 ];

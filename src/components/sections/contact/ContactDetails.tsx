@@ -1,45 +1,67 @@
+import { RiFacebookFill, RiInstagramLine, RiPinterestLine, RiTwitterXLine, RiYoutubeLine } from "@remixicon/react";
 import { siteConfig } from "@/config/site";
+import { studioAddress } from "@/data/contact";
+import { cn } from "@/utils/cn";
 
-/** Lists whichever contact details are filled in src/config/site.ts */
-export default function ContactDetails() {
-  const { contact, address } = siteConfig;
-  const addressLine = [address.street, address.city, address.state, address.postalCode].filter(Boolean).join(", ");
+const socialIcons: Record<string, typeof RiInstagramLine> = {
+  instagram: RiInstagramLine,
+  pinterest: RiPinterestLine,
+  facebook: RiFacebookFill,
+  youtube: RiYoutubeLine,
+  x: RiTwitterXLine,
+};
+
+/** Email, phone, studio address and round social links — whichever are filled in src/config/site.ts */
+export default function ContactDetails({ className }: { className?: string }) {
+  const { email, phone } = siteConfig.contact;
+  const socials = Object.entries(siteConfig.socials).filter(([, url]) => url);
   const rows = [
-    contact.email && { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
-    contact.phone && { label: "Phone", value: contact.phone, href: `tel:${contact.phone.replace(/\s+/g, "")}` },
-    contact.hours && { label: "Hours", value: contact.hours },
-    addressLine && { label: "Studio", value: addressLine },
+    email && { label: "Email", value: email, href: `mailto:${email}` },
+    phone && { label: "Phone", value: phone, href: `tel:${phone.replace(/\s+/g, "")}` },
+    studioAddress && { label: "Studio", value: studioAddress },
   ].filter(Boolean) as { label: string; value: string; href?: string }[];
 
   return (
-    <div className="flex flex-col gap-8">
-      <p data-text-effect className="text-body text-muted">
-        Questions about an order, sizing or delivery? Send us a message and we&apos;ll reply within one working day.
-      </p>
-      {rows.length > 0 ? (
-        <dl data-stagger className="flex flex-col gap-6">
-          {rows.map((row) => (
-            <div key={row.label} className="flex flex-col gap-1">
-              <dt className="text-eyebrow text-muted">{row.label}</dt>
-              <dd className="text-body">
-                {row.href ? (
-                  <a href={row.href} className="link-line">
-                    {row.value}
-                  </a>
-                ) : (
-                  row.value
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      ) : (
-        process.env.NODE_ENV === "development" && (
-          <p className="border border-dashed border-line p-4 text-caption text-muted">
-            Add email, phone, hours and address in src/config/site.ts — they&apos;ll appear here.
-          </p>
-        )
+    <dl className={cn("flex flex-col gap-8", className)}>
+      {rows.map((row) => (
+        <div key={row.label} className="flex flex-col gap-2">
+          <dt className="text-eyebrow text-muted">{row.label}</dt>
+          <dd className="max-w-xs text-body-lg">
+            {row.href ? (
+              <a href={row.href} className="link-line">
+                {row.value}
+              </a>
+            ) : (
+              row.value
+            )}
+          </dd>
+        </div>
+      ))}
+      {socials.length > 0 && (
+        <div className="flex flex-col gap-3">
+          <dt className="text-eyebrow text-muted">Connect</dt>
+          <dd>
+            <ul className="flex gap-3">
+              {socials.map(([name, url]) => {
+                const Icon = socialIcons[name];
+                return (
+                  <li key={name}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${siteConfig.name} on ${name}`}
+                      className="center size-11 rounded-full border border-line text-accent transition-colors duration-500 hover:border-accent hover:bg-accent hover:text-cream"
+                    >
+                      {Icon ? <Icon className="size-4.5" aria-hidden="true" /> : name}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </dd>
+        </div>
       )}
-    </div>
+    </dl>
   );
 }

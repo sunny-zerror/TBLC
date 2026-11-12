@@ -27,13 +27,9 @@ export default function CartView() {
         <h1 className="flex items-start gap-4 text-display md:gap-7">
           {/* Only the static words are split; the count beside them keeps updating normally */}
           <span data-heading-effect="words">Your cart</span>
-          <span data-fade="in" data-delay="0.5" className="mt-[-0.05em] text-count text-accent-soft">
-            ({loading ? "…" : count})
-          </span>
+          <span className="mt-[-0.05em] text-count text-accent-soft">({loading ? "…" : count})</span>
         </h1>
-        <p data-fade data-delay="0.3" className="mb-4 text-caption text-muted">
-          Shipping and taxes are calculated at checkout.
-        </p>
+        <p className="mb-4 text-caption text-muted">Shipping and taxes are calculated at checkout.</p>
       </div>
 
       {loading ? (
@@ -65,7 +61,7 @@ export default function CartView() {
               <span className="text-right">Total</span>
             </div>
 
-            <ul aria-label="Items in your cart" data-stagger>
+            <ul aria-label="Items in your cart">
               {lines.map((line) => {
                 const href = line.product?.slug ? productHref(line.product.slug) : "/shop";
                 const options = line.variantDetail?.selectedOptions ?? [];
@@ -127,7 +123,7 @@ export default function CartView() {
             </ul>
           </div>
 
-          <div data-fade className="mt-16 flex flex-wrap items-center justify-between gap-8">
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-8">
             <div className="flex flex-col gap-2">
               <p className="flex items-baseline gap-6 text-title md:gap-10">
                 <span>Subtotal</span>

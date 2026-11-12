@@ -30,11 +30,7 @@ export default function ProductGallery({ assets, name }: { assets: Asset[]; name
       onBlur={() => setPaused(false)}
     >
       {list.length > 1 && (
-        <ul
-          data-stagger="0.08"
-          data-delay="0.4"
-          className="no-scrollbar flex shrink-0 gap-4 overflow-x-auto md:w-16 md:flex-col md:overflow-visible"
-        >
+        <ul className="no-scrollbar flex shrink-0 gap-4 overflow-x-auto md:w-16 md:flex-col md:overflow-visible">
           {list.map((image, i) => {
             const active = i === index;
             return (

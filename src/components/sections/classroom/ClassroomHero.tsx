@@ -11,9 +11,7 @@ export default function ClassroomHero() {
           <h1 className="text-title-xl">
             <span className="flex items-start gap-2">
               <span data-heading-effect="words">The Classroom</span>
-              <span data-fade="in" data-delay="0.6" className="mt-[-0.15em] text-count text-accent-soft">
-                ({workshops.length})
-              </span>
+              <span className="mt-[-0.15em] text-count text-accent-soft">({workshops.length})</span>
             </span>
             {/* Tucked under "Classroom", overlapping it slightly as in the lettering */}
             <em
@@ -26,7 +24,7 @@ export default function ClassroomHero() {
           </h1>
 
           <div className="mt-stack flex max-w-140 flex-col items-center">
-            <p data-text-effect data-delay="0.5" className="text-body-lg text-ink-soft">
+            <p className="text-body-lg text-ink-soft">
               When Sanjana began learning calligraphy in 2018, India had no formal resources, instructors or supplies
               for it. Today the Classroom holds digital and in-person workshops in Copperplate calligraphy, brush
               lettering and creative entrepreneurship.
@@ -37,7 +35,7 @@ export default function ClassroomHero() {
           </div>
         </div>
 
-        <ul data-stagger data-delay="0.9" className="flex flex-wrap gap-x-3 gap-y-2 text-eyebrow text-accent">
+        <ul className="flex flex-wrap gap-x-3 gap-y-2 text-eyebrow text-accent">
           {classroomStats.map((stat, i) => (
             <li key={stat} className="flex gap-3">
               {i > 0 && <span aria-hidden="true">·</span>}

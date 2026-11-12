@@ -20,8 +20,7 @@ export default async function SeeAlso({ product }: { product: Product }) {
         </h2>
         <Link
           href="/shop"
-          data-fade="in"
-          data-delay="0.3"
+
           className="link-line text-cta whitespace-nowrap hover:text-accent"
         >
           Visit the STORE &nbsp;→

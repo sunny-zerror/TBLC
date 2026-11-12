@@ -84,7 +84,7 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
 
       <div className="pt-section">
         {products.length === 0 && refined ? (
-          <div data-fade className="flex flex-col items-center gap-6 py-section text-center">
+          <div className="flex flex-col items-center gap-6 py-section text-center">
             <p className="text-title-sm">No pieces match those filters.</p>
             <Link
               href={filtersToHref(withoutRefinements(filters))}

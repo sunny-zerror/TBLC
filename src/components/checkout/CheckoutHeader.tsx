@@ -5,7 +5,7 @@ import Logo from "@/components/layout/Logo";
 export default function CheckoutHeader() {
   return (
     <header className="border-b border-line">
-      <div data-fade="down" className="container grid h-header grid-cols-[1fr_auto_1fr] items-center gap-4">
+      <div className="container grid h-header grid-cols-[1fr_auto_1fr] items-center gap-4">
         <h1 data-heading-effect="words" data-delay="0.15" className="text-title-sm">
           Checkout
         </h1>

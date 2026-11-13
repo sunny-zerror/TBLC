@@ -2,18 +2,18 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
 import { classroomLinks, privateClassSubjects } from "@/data/classroom";
 
-/** Full-bleed nib photo beside the private-class pitch and the scripts on offer */
+/** Full-bleed photo of a one-to-one lesson beside the private-class pitch and the scripts on offer */
 export default function PrivateClasses() {
   return (
     <section aria-labelledby="private-classes" className="grid bg-surface grain md:grid-cols-2">
       <div data-image-reveal className="relative aspect-4/3 overflow-hidden md:aspect-auto md:min-h-168">
         <Image
-          src="/images/classroom/private_class_img.jpg"
-          alt="A hand guiding an oblique pen holder and nib"
+          src="/images/classroom/private_class.jpg"
+          alt="A student watching closely as the teacher letters with an oblique pen"
           fill
           sizes="(min-width: 48rem) 50vw, 100vw"
           data-parallax
-          className="object-cover"
+          className="object-cover object-[40%_45%]"
         />
       </div>
 

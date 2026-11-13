@@ -75,8 +75,8 @@ export default function SignupForm() {
           {errors.form}
         </p>
       )}
-      <Button type="submit" size="lg" fullWidth loading={loading} className="col-span-2">
-        Create account
+      <Button type="submit" variant="accent" size="lg" fullWidth loading={loading} className="col-span-2">
+        <em className="text-flourish">Create an</em> ACCOUNT
       </Button>
     </form>
   );

@@ -36,8 +36,8 @@ export default function LoginForm({ next }: { next: string }) {
           {error}
         </p>
       )}
-      <Button type="submit" size="lg" fullWidth loading={loading}>
-        Sign in
+      <Button type="submit" variant="accent" size="lg" fullWidth loading={loading}>
+        <em className="text-flourish">Sign</em> IN
       </Button>
     </form>
   );

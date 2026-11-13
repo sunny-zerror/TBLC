@@ -26,6 +26,10 @@ export const courseModules = [
   "Uppercase letterforms",
 ];
 
+/** Written inside the workbook's front cover */
+export const courseNote =
+  "Go slow. Copperplate rewards patience — ten minutes of drills a day will teach your hand more than an hour once a week.";
+
 export const courseFacts = [
   { value: "9", label: "modules" },
   { value: "6+", label: "hours of video" },
@@ -58,6 +62,9 @@ export interface LessonPlan {
 export interface WorkshopKit {
   image: string;
   alt: string;
+  /** The photo's pixel size — it's cropped to fit, so the markers need its proportions to stay on their objects */
+  width: number;
+  height: number;
   /** Numbered markers on the photo: x / y are percentages of its width / height */
   items: { name: string; note: string; x: number; y: number }[];
 }
@@ -191,6 +198,8 @@ export const workshops: Workshop[] = [
       // TODO: swap for a flat-lay of the boxed kit when it's shot
       image: "/images/classroom/community_images/img5.jpg",
       alt: "Pen holder, nib, ink and guide sheets laid out on the studio desk",
+      width: 1600,
+      height: 1066,
       items: [
         { name: "Oblique pen holder", note: "set for a right- or left-handed grip", x: 70, y: 84 },
         { name: "Nibs", note: "a beginner's nib and a spare", x: 63, y: 95 },

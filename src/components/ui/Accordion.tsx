@@ -66,7 +66,7 @@ export default function Accordion({ items, size = "sm", defaultOpen }: Accordion
               )}
             >
               <div className="overflow-hidden">
-                <div className={cn("text-muted", lg ? "-mt-2 max-w-2xl pb-6 text-caption" : "pb-5 text-body")}>
+                <div className={cn("text-muted", lg ? "max-w-2xl pb-6 text-caption" : "pb-5 text-body")}>
                   {item.content}
                 </div>
               </div>

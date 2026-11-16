@@ -23,13 +23,13 @@ export default function ClassroomHero() {
             </em>
           </h1>
 
-          <div className="mt-stack flex max-w-140 flex-col items-center">
+          <div className="mt-stack flex max-w-140 flex-col">
             <p className="text-body-lg text-ink-soft">
               When Sanjana began learning calligraphy in 2018, India had no formal resources, instructors or supplies
               for it. Today the Classroom holds digital and in-person workshops in Copperplate calligraphy, brush
               lettering and creative entrepreneurship.
             </p>
-            <ButtonLink href="#workshops" variant="paper" size="lg" data-fade data-delay="0.75" className="mt-stack">
+            <ButtonLink href="#workshops" variant="paper" size="lg" data-fade data-delay="0.75" className="mt-stack w-fit">
               <em className="text-flourish">Find your</em> CLASS
             </ButtonLink>
           </div>

@@ -60,6 +60,13 @@ export const siteRoutes: SiteRoute[] = [
     priority: 1,
   },
   {
+    path: "/expertise",
+    title: "Our Expertise",
+    description:
+      "Luxury invitations, paper goods, stationery and calligraphy, branding and packaging, and custom gifting, designed and lettered by hand in Colaba.",
+    priority: 0.9,
+  },
+  {
     path: "/shop",
     title: "Store",
     description: "Paper goods, writing tools and keepsakes, lettered and finished by hand in Colaba.",

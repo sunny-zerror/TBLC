@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteRoutes } from "@/config/site";
 import { blogHref, getPosts } from "@/data/blog";
 import { workshopHref, workshops } from "@/data/classroom";
+import { serviceHref, services } from "@/data/expertise";
 import { getCategories, getProducts } from "@/services/catalog";
 import { mediaUrl, primaryImage } from "@/utils/media";
 import { absoluteUrl, productHref } from "@/utils/url";
@@ -46,6 +47,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: [absoluteUrl(w.image.src)],
   }));
 
+  const servicePages: MetadataRoute.Sitemap = services.map((s) => ({
+    url: absoluteUrl(serviceHref(s.slug)),
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.8,
+    images: s.gallery.map((image) => absoluteUrl(image.src)),
+  }));
+
   const blogPages: MetadataRoute.Sitemap = getPosts().map((p) => ({
     url: absoluteUrl(blogHref(p.slug)),
     lastModified: new Date(p.date),
@@ -54,5 +63,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(p.cover ? { images: [absoluteUrl(p.cover.src)] } : {}),
   }));
 
-  return [...pages, ...workshopPages, ...blogPages, ...categoryPages, ...productPages];
+  return [...pages, ...servicePages, ...workshopPages, ...blogPages, ...categoryPages, ...productPages];
 }

@@ -12,7 +12,12 @@ export const classroomLinks = {
   shareWork: "/contact?subject=Share%20my%20work",
 };
 
-export const classroomStats = ["60K+ online community", "1,000+ students taught", "Since 2018"];
+/** `count` figures roll up from zero as they scroll in; a year shouldn't */
+export const classroomStats = [
+  { value: "60K+", label: "Online community", count: true },
+  { value: "1,000+", label: "Students taught", count: true },
+  { value: "2018", label: "Teaching since", count: false },
+];
 
 export const courseModules = [
   "Welcome to the course & portal",
@@ -30,11 +35,12 @@ export const courseModules = [
 export const courseNote =
   "Go slow. Copperplate rewards patience — ten minutes of drills a day will teach your hand more than an hour once a week.";
 
+/** `note` is the small line under each figure on the facts band */
 export const courseFacts = [
-  { value: "9", label: "modules" },
-  { value: "6+", label: "hours of video" },
-  { value: "100+", label: "page workbook" },
-  { value: "24", label: "months of access" },
+  { value: "9", label: "modules", note: "From tools to uppercase letters" },
+  { value: "6+", label: "hours of video", note: "Short lessons to write along with" },
+  { value: "100+", label: "page workbook", note: "Drills and guide sheets to fill" },
+  { value: "24", label: "months of access", note: "Go back to any lesson, any time" },
 ];
 
 /** One run of a workshop — the booking page lets the student pick between them */
@@ -288,6 +294,21 @@ export const privateClassSubjects = [
   "Creative entrepreneurship",
 ];
 
+/**
+ * The private-class composer: where and how often, each as a chip label and the phrase it adds
+ * to the enquiry ("I'd like to learn Brush lettering online, over a few weeks.")
+ */
+export const privateClassPlaces = [
+  { label: "The studio, Colaba", phrase: "at the studio in Colaba" },
+  { label: "Online", phrase: "online" },
+];
+
+export const privateClassPaces = [
+  { label: "A single lesson", phrase: "in a single lesson" },
+  { label: "A few weeks", phrase: "over a few weeks" },
+  { label: "Ongoing", phrase: "on an ongoing basis" },
+];
+
 export const communityPosts = [
   { image: "/images/classroom/community_images/img1.jpg", label: "Behind the desk", alt: "The studio desk mid-lesson" },
   {
@@ -297,13 +318,13 @@ export const communityPosts = [
   },
   {
     image: "/images/classroom/community_images/img3.jpg",
-    label: "Tutorial / Copperplate",
-    alt: "Sanjana demonstrating Copperplate",
+    label: "Unboxing / The kit",
+    alt: "The Copperplate kit unboxed: workbook, guide sheets, nib and ink",
   },
   {
     image: "/images/classroom/community_images/img5.jpg",
-    label: "Unboxing / The kit",
-    alt: "Unboxing the calligraphy kit",
+    label: "Tutorial / Copperplate",
+    alt: "Sanjana at her desk with inks and a Copperplate exemplar",
   },
   { image: "/images/classroom/community_images/img4.jpg", label: "Tips / The nib", alt: "Close-up of a nib on paper" },
 ];
